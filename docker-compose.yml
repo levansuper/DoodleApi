@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  doodle:
+    container_name: doodle
+    image: doodle
+    build: ./doodle
+    ports:
+      - '8005:8005'
+    volumes:
+      - './doodle/src:/app/src/'
+    networks:
+      - doodle
+    environment:
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=test
+      - DATABASE_DATABASE=test
+      - DATABASE_HOST=mysqldb
+      - DATABASE_ENTITY_PREFIX=doodle_
+networks:
+  doodle:
+    external:
+      name: doodle

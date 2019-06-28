@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  mysqldb:
+    image: 'mysql:8.0.16'
+    container_name: mysqldb
+    command: 'mysqld --default-authentication-plugin=mysql_native_password'
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: test
+    ports:
+      - '3306:3306'
+    restart: unless-stopped
+    networks:
+      - doodle
+    volumes:
+      - 'mysqldbdata:/data/db'
+  phpmyadmin:
+    image: 'phpmyadmin/phpmyadmin:4.8'
+    container_name: phpmyadminweb
+    depends_on:
+      - mysqldb
+    environment:
+      PMA_HOST: mysqldb
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - '9191:80'
+    networks:
+      - doodle
+    restart: unless-stopped
+volumes:
+  mysqldbdata: null
+networks:
+  doodle:
+    name: doodle
