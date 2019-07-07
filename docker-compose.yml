@@ -16,6 +16,24 @@ services:
       - DATABASE_DATABASE=test
       - DATABASE_HOST=mysqldb
       - DATABASE_ENTITY_PREFIX=doodle_
+      - API_PORT=8005
+      - NOODLE_URL=http://noodle:8006/noodle
+    links:
+      - noodle
+    depends_on:
+      - noodle
+  noodle:
+    container_name: noodle
+    image: noodle
+    build: ./noodle
+    ports:
+      - '8006:8006'
+    volumes:
+      - './noodle/src:/app/src/'
+    networks:
+      - doodle
+    environment:
+      - API_PORT=8006  
 networks:
   doodle:
     external:

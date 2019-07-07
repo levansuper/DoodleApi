@@ -13,4 +13,7 @@ export class DoodleModel {
 	@Column()
 	name: string;
 
+	@Column()
+	noodleWeight: number;
+
 }
